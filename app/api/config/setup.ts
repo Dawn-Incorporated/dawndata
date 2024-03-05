@@ -9,7 +9,8 @@ const connection = await mysql.createConnection({
 
 async function execute(query: string) {
     try {
-        return await connection.query(query);
+        const [response, fields] = await connection.query(query);
+        return response;
     } catch (err) {
         return err;
     }
