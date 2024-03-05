@@ -4,18 +4,15 @@ const connection = await mysql.createConnection({
     host: process.env.DB_HOST || '',
     user: process.env.DB_USER || '',
     password: process.env.DB_PASS || '',
-    port: parseInt(process.env.DB_PORT || '', 10),
-    database: process.env.DB_NAME || ''
+    port: parseInt(process.env.DB_PORT || '', 10)
 });
 
-async function query(query: string) {
+async function execute(query: string) {
     try {
-        const [results, fields] = await connection.query(query);
-        return results;
+        return await connection.query(query);
     } catch (err) {
-        console.error('Error executing query:', err);
-        throw err;
+        return err;
     }
 }
 
-export default query;
+export default execute;
