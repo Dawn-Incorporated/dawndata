@@ -1,39 +1,37 @@
-"use client"
+'use client'
 
-import useSWR from 'swr'
+import { useSearchParams } from 'next/navigation'
+import useSWR from "swr";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import Link from "next/link";
 
 const fetcher = (...args: any[]) => fetch(...args).then((res) => res.json())
 
-export default function Home() {
-    const {data, error} = useSWR('/api/databases', fetcher)
+export default function SearchBar() {
+    const searchParams = useSearchParams()
+    const database = searchParams.get('database')
+    const tableName = `Tables_in_${ database }`
 
-    if (error) return <div>Failed to load</div>
-    if (!data) return <div>Loading...</div>
+    const {data, error} = useSWR(`/api/databases/${ database }/tables`, fetcher)
 
-    return (
-        <div>
-            <h1>
-                <Table>
-                    <TableHead>
-                        <TableRow>
-                            <TableHeader>Database</TableHeader>
+    return <>
+        { data &&
+            <Table>
+                <TableHead>
+                    <TableRow>
+                        <TableHeader>Tables of { database }</TableHeader>
+                    </TableRow>
+                </TableHead>
+                <TableBody>
+                    { data[0].map((item: any, index: any) => (
+                        <TableRow key={ index }>
+                            <TableCell>
+                                <p>{ item[tableName] }</p>
+                            </TableCell>
                         </TableRow>
-                    </TableHead>
-                    <TableBody>
-                        { data.map((item: any, index: any) => (
-                            <TableRow key={ index }>
-                                <TableCell>
-                                    <Link href={ `/databases/${ item.Database }` }>
-                                        { item.Database }
-                                    </Link>
-                                </TableCell>
-                            </TableRow>
-                        )) }
-                    </TableBody>
-                </Table>
-            </h1>
-        </div>
-    )
+                    )) }
+                </TableBody>
+            </Table>
+        }
+        { error && <div>Failed to load</div> }
+    </>
 }
