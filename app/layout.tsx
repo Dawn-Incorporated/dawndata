@@ -10,7 +10,10 @@ import Link from "next/link";
 
 const inter = Inter({subsets: ["latin"]});
 
-const fetcher = (...args: any[]) => fetch(...args).then((res) => res.json())
+const fetcher = (...args: any[]) => {
+    const [url, options] = args
+    return fetch(url, options).then((res) => res.json())
+}
 
 export default function RootLayout({children}: Readonly<{ children: React.ReactNode; }>) {
     const {data, error} = useSWR('/api/databases', fetcher)
