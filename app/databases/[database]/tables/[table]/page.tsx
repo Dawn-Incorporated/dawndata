@@ -9,9 +9,8 @@ const fetcher = (...args: any[]) => {
 }
 
 export default function Page({params}: { params: { database: string, table: string } }) {
+    console.log(params.database, params.table)
     const {data, error} = useSWR(`/api/databases/${ params.database }/tables/${ params.table }`, fetcher)
-
-    if (!data) return <div>Loading !</div>
 
     return <>
         { data &&
@@ -34,6 +33,6 @@ export default function Page({params}: { params: { database: string, table: stri
                 </TableBody>
             </Table>
         }
-        { error && <div>Failed to load</div> }
+        { error && <div>Failed to load data in { params.database }.{ params.table }</div> }
     </>
 }
