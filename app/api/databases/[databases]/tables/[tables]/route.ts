@@ -1,4 +1,4 @@
-import setup from "../../../../config/setup";
+import setup from "@/lib/connexion";
 import { NextRequest } from "next/server";
 
 export async function GET(request: NextRequest, {params}: { params: { databases: string, tables: string } }) {
