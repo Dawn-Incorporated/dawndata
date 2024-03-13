@@ -1,6 +1,6 @@
 import setup from "@/lib/connexion";
 import { NextRequest } from "next/server";
-import isSet from "@/lib/params-helper";
+import { isSet } from "@/lib/params-helper";
 
 export async function GET(request: NextRequest) {
     try {

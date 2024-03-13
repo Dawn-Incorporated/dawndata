@@ -5,7 +5,14 @@
  * @returns True if the value is set, false otherwise
  */
 function isSet(value: any): boolean {
-    return value === "" && value !== undefined && value !== null;
+    return value === "" || (value !== undefined && value !== null);
 }
 
-export default isSet;
+function addParametersToQuery(prefix: string, value: any, surround: string | null = null): string {
+    if (!isSet(value)) {
+        return ''
+    }
+    return `${ prefix } ${ surround ? surround : '' }${ value }${ surround ? surround : '' }`
+}
+
+export { isSet, addParametersToQuery };

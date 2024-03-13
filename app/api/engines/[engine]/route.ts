@@ -1,6 +1,6 @@
 import setup from "@/lib/connexion";
 import { NextRequest } from "next/server";
-import isSet from "@/lib/params-helper";
+import { isSet } from "@/lib/params-helper";
 
 export async function GET(request: NextRequest, {params}: { params: { engine: string } }) {
     try {
@@ -15,7 +15,7 @@ export async function GET(request: NextRequest, {params}: { params: { engine: st
             return Response.json({error: "You must use status or mutex"})
         }
 
-        const query = await setup(`SHOW ENGINE ${ params.engine } ${ isSet(status) ? `STATUS` : '' }${ mutex ? `MUTEX` : '' }`)
+        const query = await setup(`SHOW ENGINE ${ params.engine } ${ isSet(status) ? `STATUS` : '' }${ isSet(mutex) ? `MUTEX` : '' }`)
         return Response.json(query)
     } catch (e) {
         return Response.json({error: e})
