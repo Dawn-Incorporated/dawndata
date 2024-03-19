@@ -1,7 +1,7 @@
 'use client'
 
 import useSWR from "swr";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import {Table, TableBody, TableCell, TableHead, TableHeader, TableRow} from "@/components/ui/table";
 
 const fetcher = (...args: any[]) => {
     const [url, options] = args
@@ -10,7 +10,7 @@ const fetcher = (...args: any[]) => {
 
 export default function Page({params}: { params: { database: string, table: string } }) {
     console.log(params.database, params.table)
-    const {data, error} = useSWR(`/api/databases/${ params.database }/tables/${ params.table }`, fetcher)
+    const {data, error} = useSWR(`/api/databases/${params.database}/tables/${params.table}/`, fetcher)
 
     return <>
         { data &&

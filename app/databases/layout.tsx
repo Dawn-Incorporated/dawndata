@@ -2,18 +2,13 @@
 
 import "./../globals.css";
 import useSWR from "swr";
-import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from "@/components/ui/resizable"
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion"
+import {ResizableHandle, ResizablePanel, ResizablePanelGroup} from "@/components/ui/resizable"
+import {Accordion, AccordionContent, AccordionItem, AccordionTrigger,} from "@/components/ui/accordion"
 
-import { cn } from "@/lib/utils";
-import React, { SetStateAction, useState } from "react";
-import { TooltipProvider } from "@/components/ui/tooltip";
-import { set } from "react-hook-form";
+import {cn} from "@/lib/utils";
+import React, {useState} from "react";
+import {TooltipProvider} from "@/components/ui/tooltip";
+import Link from "next/link";
 
 const fetcher = (...args: any[]) => {
     const [url, options] = args
@@ -40,7 +35,8 @@ const getTableFromDatabase = async (database: string) => {
         const data = await response.json();
 
         setDataFromDatabase(data[0].map((item: any) => (
-            <li key={item[concat]}>{item[concat]}</li>
+            <li key={item[concat]}><Link href={`/databases/${database}/tables/${item[concat]}`}>{item[concat]}</Link>
+            </li>
         )));
     } catch (error: any) {
         console.error('Erreur lors de la récupération des données :', error.message);
